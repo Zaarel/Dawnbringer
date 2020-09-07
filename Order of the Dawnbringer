@@ -1,0 +1,148 @@
+/*	-WHAT IS THIS?-
+	The script featured here is an explanation of how to make your own custom addition to MPMB's D&D 5e Character Tools.
+	To add your own content to the Character Sheet, use the syntax below and save it in a file. You can then import this file directly to the sheet using the "Import" button and "Import/Export" bookmark.
+	There you can either import the file as a whole or just copy the text into a dialogue.
+	-KEEP IN MIND-
+	Note that you can add as many custom codes as you want, either by importing consecutive files or pasting the scripts into the dialogue.
+	It is recommended to enter the code in a freshly downloaded or reset sheet before adding any other information so that there won't be any conflicts.
+*/
+
+/*	-INFORMATION-
+	Subject:	Subclass (a.k.a. Archetype)
+	Effect:		This is the syntax for adding a new subclass/archetype to a class that is defined in the sheet, or to a class you made yourself
+	Sheet:		v12.999 (2017-11-29)
+*/
+
+var iFileName = "Blood Hunter Order of the Dawnbringer.js"; 
+
+AddSubClass("blood hunter", "dawnbringer",{ 
+
+		regExpSearch : /^(?=.*dawn)(?=.*bringer).*$/i, 
+
+		subname : "Order of the Dawnbringer", 
+
+		source : ["HB", 0], 
+
+		fullname : "Order of the Dawnbringer", 
+
+		spellcastingFactor : 3, 
+
+	spellcastingTable : [ 
+
+		[0, 0, 0, 0, 0, 0, 0, 0, 0], //lvl 0
+		[0, 0, 0, 0, 0, 0, 0, 0, 0], //lvl 1
+		[0, 0, 0, 0, 0, 0, 0, 0, 0], //lvl 2
+		[2, 0, 0, 0, 0, 0, 0, 0, 0], //lvl 3
+		[3, 0, 0, 0, 0, 0, 0, 0, 0], //lvl 4
+		[3, 0, 0, 0, 0, 0, 0, 0, 0], //lvl 5
+		[3, 0, 0, 0, 0, 0, 0, 0, 0], //lvl 6
+		[4, 2, 0, 0, 0, 0, 0, 0, 0], //lvl 7
+		[4, 2, 0, 0, 0, 0, 0, 0, 0], //lvl 8
+		[4, 2, 0, 0, 0, 0, 0, 0, 0], //lvl 9
+		[4, 3, 0, 0, 0, 0, 0, 0, 0], //lvl10
+		[4, 3, 0, 0, 0, 0, 0, 0, 0], //lvl11
+		[4, 3, 0, 0, 0, 0, 0, 0, 0], //lvl12
+		[4, 3, 2, 0, 0, 0, 0, 0, 0], //lvl13
+		[4, 3, 2, 0, 0, 0, 0, 0, 0], //lvl14
+		[4, 3, 2, 0, 0, 0, 0, 0, 0], //lvl15
+		[4, 3, 3, 0, 0, 0, 0, 0, 0], //lvl16
+		[4, 3, 3, 0, 0, 0, 0, 0, 0], //lvl17
+		[4, 3, 3, 0, 0, 0, 0, 0, 0], //lvl18
+		[4, 3, 3, 1, 0, 0, 0, 0, 0], //lvl19
+		[4, 3, 3, 1, 0, 0, 0, 0, 0] //lvl20
+	],
+
+	spellcastingKnown : { 
+
+		cantrips : [0, 0, 0, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], 
+
+		spells : [0, 0, 2, 3, 3, 3, 6, 6, 6, 7, 7, 7, 9, 9, 9, 10, 10, 10, 11, 11],
+		prepared : true, 
+
+	},
+
+	spellcastingList : { 
+
+		class : "cleric", 
+
+		level : [0, 4], 
+
+		spells : ["burning hands", "faerie fire", "flaming sphere", "scorching ray", "daylight", "fireball", "guardian of faith", "wall of fire"], 
+
+
+		features : { //unlike the other entries, "features" will not delete all the features from the ClassList, but will add to the features in the ClassList. For this to work properly, the feature object has to be named "subclassfeatureX" and not something appropriate for the feature. The below are the features of the purple Dragon Knight
+
+			"subclassfeature3" : { 
+				name : "Warding Flare",
+				source : ["HB", 0],
+				minlevel : 3,
+				description : desc([
+				"When a creature within 30 ft attacks me and I can see it, I can interpose divine light",
+				"As a reaction, I impose disadv. on the attacker's attack roll (unless it can't be blinded)"
+			]),
+			usages : "Intelligence modifier per ",
+			usagescalc : "event.value = Math.max(1, What('Int Mod'));",
+			recovery : "long rest",
+			action : ["reaction", ""]
+		},
+				
+			     extraname : "Crimson Rite",
+			        "primal rite of the dawn" : {
+				 source : [["MM:BH", 5]],
+				 name : "Rite of the Dawn",
+				 description : " [radiant damage]" + desc([
+					"While this rite is active, my weapon deals an extra hemocraft die of rite damage vs. undead",
+					"Also, my weapon sheds 20-ft radius bright light and I gain resistance to necrotic damage"
+				 ])
+			     },
+			     autoSelectExtrachoices : [{
+				 extrachoice : 'primal rite of the dawn'
+			        }]
+	               },
+
+			"subclassfeature7" : {
+				name : "Radiance of the dawn",
+				source : ["HB", 0 ],
+				minlevel : 7,
+				description : "\n   " + "As an action, in 30 ft, magical darkness is dispelled and hostiles must make a Con save" + "\n   " + "Each takes radiant damage, saves for half, and negates with total cover",
+			additional : ["", "2d10 + 7 damage", "2d10 + 8 damage", "2d10 + 9 damage", "2d10 + 10 dmg", "2d10 + 11 dmg", "2d10 + 12 dmg", "2d10 + 13 dmg", "2d10 + 14 dmg", "2d10 + 15 dmg", "2d10 + 16 dmg", "2d10 + 17 dmg", "2d10 + 18 dmg", "2d10 + 19 dmg", "2d10 + 20 dmg"],
+			action : ["action", ""]
+		},
+			   extraname : "Improved Flare",
+                               source : ["HB", 0],
+			       minlevel : 7,
+			       description : "\n   " + "I can also use my Warding Flare if another is attacked by a creature within 30 ft of me"
+		},
+
+			"subclassfeature11" : {
+				name : "Brand of the Dawn",
+				source : ["HB", 0],
+				minlevel : 11,
+				description : desc(["If I damage a branded creature with a weapon with an active crimson rite, I heal with it suffering","I heal hitpoints equal the damage dealed by the brand"
+			     ])
+			 },
+			extraname : "Order of the Dawnbringer 15; Blood Curse",
+			"blood curse of the flare" : {
+			      source : [["HB", 0]],
+			      name : "Blood Curse of the Flare",
+			      description : desc([
+					"As a bonus action, I curse a creature that you can see within a 30 foot of me. The next minute, the creature takes my intelligence modifier to the damage I deal with any Fire or Radiant Damage attack.",
+					"\u2022 Amplify: The cursed creature also has vulnerability to Fire or Radiant Damage until the end of the turn the curse was made.",
+				action : [["bonus action", ""]]
+			    ])
+			 },
+			 autoSelectExtrachoices : [{
+				extrachoice : "blood curse of the flare",
+				minlevel : 15
+			 }]
+		     },
+			"subclassfeature18" : {
+				name : "Lightbringer",
+				source : ["HB", 0],
+				minlevel : 18,
+				description :  "\n   " + "As an action, I have an aura of 60 ft sunlight and 30 ft dim light for 1 min" + "\n   " + "Enemies in the sunlight have disadv. on saves vs. spells that deal fire or radiant damage",
+			action : ["action", " (start/stop)"]
+			},
+		}
+	}
+);
